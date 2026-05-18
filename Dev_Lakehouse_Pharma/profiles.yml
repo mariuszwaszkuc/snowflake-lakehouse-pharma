@@ -1,0 +1,10 @@
+Dev_Lakehouse_Pharma:
+  target: dev
+  outputs:
+    dev:
+      type: snowflake
+      role: DEV_DATA_ENGINEER
+      warehouse: COMPUTE_WH
+      database: DEV_LAKEHOUSE
+      schema: BRONZE
+      threads: 8
