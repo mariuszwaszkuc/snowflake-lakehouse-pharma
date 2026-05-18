@@ -14,6 +14,19 @@ macro-paths:
   - macros
 snapshot-paths:
   - snapshots
+  
 models:
   dbt_lakehouse_pharma:
-    +materialized: view
+    +database: DEV_LAKEHOUSE 
+    bronze:
+    
+      +schema: BRONZE
+      +materialized: table
+
+    silver:
+      +schema: SILVER
+      +materialized: view
+
+    gold:
+      +schema: GOLD
+      +materialized: view    

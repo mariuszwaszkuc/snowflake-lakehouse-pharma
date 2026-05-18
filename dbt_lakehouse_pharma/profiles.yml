@@ -3,7 +3,7 @@ dbt_lakehouse_pharma:
   outputs:
     dev:
       type: snowflake
-      role: DEV_DATA_ENGINEER
+      role: ACCOUNTADMIN
       user: MARIUSZWASZKUC
       warehouse: COMPUTE_WH
       database: DEV_LAKEHOUSE

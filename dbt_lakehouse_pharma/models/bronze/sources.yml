@@ -1,0 +1,9 @@
+version: 2
+sources:
+  - name: BRONZE
+    database: DEV_LAKEHOUSE
+    description: "BROZNE LEAYER"
+    schema: BRONZE
+    tables: 
+    - name: CUSTOMERS
+
