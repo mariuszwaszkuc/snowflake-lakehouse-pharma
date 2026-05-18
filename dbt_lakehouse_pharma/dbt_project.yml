@@ -1,7 +1,7 @@
-name: Dev_Lakehouse_Pharma
+name: dbt_lakehouse_pharma
 version: 1.0.0
 config-version: 2
-profile: Dev_Lakehouse_Pharma
+profile: dbt_lakehouse_pharma
 model-paths:
   - models
 analysis-paths:
@@ -15,5 +15,5 @@ macro-paths:
 snapshot-paths:
   - snapshots
 models:
-  Dev_Lakehouse_Pharma:
+  dbt_lakehouse_pharma:
     +materialized: view
