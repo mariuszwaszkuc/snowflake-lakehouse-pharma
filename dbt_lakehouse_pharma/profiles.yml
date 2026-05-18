@@ -4,6 +4,7 @@ dbt_lakehouse_pharma:
     dev:
       type: snowflake
       role: DEV_DATA_ENGINEER
+      user: MARIUSZWASZKUC
       warehouse: COMPUTE_WH
       database: DEV_LAKEHOUSE
       schema: BRONZE
