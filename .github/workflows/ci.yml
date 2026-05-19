@@ -24,8 +24,8 @@ jobs:
 
       - name: Setup dbt profiles
         run: |
-          mkdir -p ~/.dbt
-          cat > ~/.dbt/profiles.yml <<EOF
+          mkdir -p dbt_lakehouse_pharma
+          cat > ~/dbt_lakehouse_pharma/profiles.yml <<EOF
           dbt_dev_lakehouse_pharma:
             target: dev
             outputs:
