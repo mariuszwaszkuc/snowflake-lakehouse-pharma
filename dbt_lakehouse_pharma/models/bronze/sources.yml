@@ -6,4 +6,5 @@ sources:
     schema: BRONZE
     tables: 
     - name: CUSTOMERS
+    - name: COUNTRIES
 
