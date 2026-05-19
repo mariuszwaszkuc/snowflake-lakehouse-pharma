@@ -38,12 +38,12 @@ jobs:
       - name: Test Snowflake connection
         run: snow connection test -x
       - name: Create a new tester dbt project object in ${{ secrets.SNOWFLAKE_DATABASE }}.${{ secrets.SNOWFLAKE_SCHEMA  }}
-        run: snow dbt deploy tester_tasty_bytes_dbt_project_object_gh_action --source  --dbt-version 1.10.15 --force -x
+        run: snow dbt deploy dbt_lakehouse_pharma_action --source ./dbt_lakehouse_pharma  --dbt-version 1.10.15 --force -x
         working-directory: dbt_lakehouse_pharma
       - name: List all of the snowflake dbt project objects in your account
         run: snow dbt list -x
         working-directory: dbt_lakehouse_pharma
         # Builds all models and runs tests in DAG order, failing early if any upstream test breaks
       - name: Build and test dbt project in ${{ secrets.SNOWFLAKE_DATABASE }}.${{ secrets.SNOWFLAKE_SCHEMA }}
-        run: snow dbt execute -x tester_tasty_bytes_dbt_project_object_gh_action build --target dev
+        run: snow dbt execute -x dbt_lakehouse_pharma_action build --target dev
         working-directory: dbt_lakehouse_pharma
