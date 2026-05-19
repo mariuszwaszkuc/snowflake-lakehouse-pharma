@@ -24,15 +24,24 @@ jobs:
           pip install --upgrade pip
           pip install dbt-core dbt-snowflake snowflake-connector-python
 
-      # 🔥 KLUCZOWA POPRAWKA: profiles MUSI być w katalogu dbt
-      - name: Create dbt profiles in project dir
+      # 🔥 ZERO EOF - BUILD FILE LINE BY LINE
+      - name: Create dbt profiles safely
         run: |
           mkdir -p dbt_lakehouse_pharma
 
-          printf "dbt_dev_lakehouse_pharma:\n  target: dev\n  outputs:\n    dev:\n      type: snowflake\n      account: %s\n      user: %s\n      password: %s\n      role: ACCOUNTADMIN\n      warehouse: COMPUTE_WH\n      database: DEV_LAKEHOUSE\n      schema: BRONZE\n      threads: 8\n" \
-          "$SNOWFLAKE_ACCOUNT" \
-          "$SNOWFLAKE_USER" \
-          "$SNOWFLAKE_PASSWORD" > dbt_lakehouse_pharma/profiles.yml
+          echo "dbt_dev_lakehouse_pharma:" > dbt_lakehouse_pharma/profiles.yml
+          echo "  target: dev" >> dbt_lakehouse_pharma/profiles.yml
+          echo "  outputs:" >> dbt_lakehouse_pharma/profiles.yml
+          echo "    dev:" >> dbt_lakehouse_pharma/profiles.yml
+          echo "      type: snowflake" >> dbt_lakehouse_pharma/profiles.yml
+          echo "      account: \"${SNOWFLAKE_ACCOUNT}\"" >> dbt_lakehouse_pharma/profiles.yml
+          echo "      user: \"${SNOWFLAKE_USER}\"" >> dbt_lakehouse_pharma/profiles.yml
+          echo "      password: \"${SNOWFLAKE_PASSWORD}\"" >> dbt_lakehouse_pharma/profiles.yml
+          echo "      role: ACCOUNTADMIN" >> dbt_lakehouse_pharma/profiles.yml
+          echo "      warehouse: COMPUTE_WH" >> dbt_lakehouse_pharma/profiles.yml
+          echo "      database: DEV_LAKEHOUSE" >> dbt_lakehouse_pharma/profiles.yml
+          echo "      schema: BRONZE" >> dbt_lakehouse_pharma/profiles.yml
+          echo "      threads: 8" >> dbt_lakehouse_pharma/profiles.yml
 
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
@@ -50,6 +59,6 @@ jobs:
         working-directory: dbt_lakehouse_pharma
         run: dbt deps
 
-      - name: dbt build (DEV)
+      - name: dbt build
         working-directory: dbt_lakehouse_pharma
         run: dbt build --target dev --profiles-dir .
