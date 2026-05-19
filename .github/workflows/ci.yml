@@ -44,10 +44,8 @@ jobs:
         working-directory: dbt_lakehouse_pharma
         run: snow dbt list -x
         # Builds all models and runs tests in DAG order, failing early if any upstream test breaks
-      - name: Debug current role 1
-        working-directory: dbt_lakehouse_pharma
-        run: snow sql -x -q "SELECT CURRENT_ROLE();"
-      - name: Debug current role 2
+
+      - name: Debug current role 
         working-directory: dbt_lakehouse_pharma
         run: |
           snow sql -x -q "SELECT 
@@ -57,9 +55,7 @@ jobs:
           CURRENT_DATABASE(),
           CURRENT_SCHEMA(),
           CURRENT_WAREHOUSE();"
-      - name: Debug current role 3
-        working-directory: dbt_lakehouse_pharma
-        run: snow sql -x -q "SELECT CURRENT_USER();"
+
         
       - name: Build and test dbt project in ${{ secrets.SNOWFLAKE_DATABASE }}.${{ secrets.SNOWFLAKE_SCHEMA }}
         working-directory: dbt_lakehouse_pharma
