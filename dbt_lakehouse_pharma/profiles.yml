@@ -1,4 +1,4 @@
-dbt_lakehouse_pharma:
+dbt_dev_lakehouse_pharma:
   target: dev
   outputs:
     dev:
