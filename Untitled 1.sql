@@ -11,3 +11,11 @@ CREATE USER IF NOT EXISTS github_actions_service_user
   GRANT ROLE ACCOUNTADMIN TO USER github_actions_service_user;
 
   ALTER USER github_actions_service_user SET DEFAULT_WAREHOUSE = 'COMPUTE_WH';
+
+GRANT USAGE ON DATABASE PHARMA TO ROLE github_actions_service_user;
+GRANT USAGE ON SCHEMA PHARMA.SILVER TO ROLE github_actions_service_user;
+
+GRANT SELECT ON ALL TABLES IN SCHEMA PHARMA.SILVER TO ROLE github_actions_service_user;
+GRANT SELECT ON FUTURE TABLES IN SCHEMA PHARMA.SILVER TO ROLE github_actions_service_user;
+
+SELECT CURRENT_USER();
