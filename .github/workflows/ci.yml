@@ -46,4 +46,4 @@ jobs:
         # Builds all models and runs tests in DAG order, failing early if any upstream test breaks
       - name: Build and test dbt project in ${{ secrets.SNOWFLAKE_DATABASE }}.${{ secrets.SNOWFLAKE_SCHEMA }}
         working-directory: dbt_lakehouse_pharma
-        run: snow dbt execute -x dbt_lakehouse_pharma_action build --target dev --project-dir
+        run: snow dbt execute -x dbt_lakehouse_pharma_action build --target dev
