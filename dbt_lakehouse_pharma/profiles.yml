@@ -9,3 +9,12 @@ dbt_lakehouse_pharma:
       database: DEV_LAKEHOUSE
       schema: BRONZE
       threads: 8
+    prod:
+      type: snowflake
+      role: ACCOUNTADMIN
+      user: MARIUSZWASZKUC
+      warehouse: COMPUTE_WH
+      database: PROD_LAKEHOUSE
+      schema: BRONZE
+      threads: 8
+
