@@ -38,10 +38,6 @@ jobs:
       - name: Test Snowflake connection
         run: snow connection test -x
 
-      - name: dbt deps
-        working-directory: dbt_lakehouse_pharma
-        run: dbt deps
-
       - name: dbt build (DEV)
         working-directory: dbt_lakehouse_pharma
         run: dbt build --target dev
