@@ -18,17 +18,34 @@ jobs:
           python-version: "3.9"
 
       - name: Install dbt
-        run: |
-          pip install dbt-core dbt-snowflake
+        run: pip install dbt-core dbt-snowflake
 
       - name: Setup profiles
         run: |
           mkdir -p ~/.dbt
-          echo "${{ secrets.DBT_PROFILES }}" > ~/.dbt/profiles.yml
-      
-      - name: Setup profiles
+          cat <<EOF > ~/.dbt/profiles.yml
+          dbt_dev_lakehouse_pharma:
+            target: dev
+            outputs:
+              dev:
+                type: snowflake
+                account: "${SNOWFLAKE_ACCOUNT}"
+                user: "${SNOWFLAKE_USER}"
+                password: "${SNOWFLAKE_PASSWORD}"
+                role: ACCOUNTADMIN
+                warehouse: COMPUTE_WH
+                database: DEV_LAKEHOUSE
+                schema: BRONZE
+                threads: 8
+          EOF
+        env:
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
+          SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+
+      - name: DEBUG profiles.yml
         run: cat ~/.dbt/profiles.yml
-         
+
       - name: dbt deps
         run: dbt deps
         working-directory: dbt_lakehouse_pharma
