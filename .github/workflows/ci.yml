@@ -25,9 +25,10 @@ jobs:
         run: |
           mkdir -p ~/.dbt
           echo "${{ secrets.DBT_PROFILES }}" > ~/.dbt/profiles.yml
-      - name: DEBUG profiles.yml
-         run: cat ~/.dbt/profiles.yml
-
+      
+      - name: Setup profiles
+        run: cat~/.dbt/profiles.yml
+         
       - name: dbt deps
         run: dbt deps
         working-directory: dbt_lakehouse_pharma
