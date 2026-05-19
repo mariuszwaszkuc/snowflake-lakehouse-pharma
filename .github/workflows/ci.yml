@@ -3,8 +3,6 @@ name: dbt CI
 on:
   pull_request:
     branches: [ main ]
-  push:
-    branches: [ main ]
 
 jobs:
   dbt-test:
@@ -24,41 +22,33 @@ jobs:
           pip install --upgrade pip
           pip install dbt-core dbt-snowflake snowflake-connector-python
 
-      # 🔥 ZERO EOF - BUILD FILE LINE BY LINE
-      - name: Create dbt profiles safely
+      - name: Setup dbt profiles
         run: |
-          mkdir -p dbt_lakehouse_pharma
-
-          echo "dbt_dev_lakehouse_pharma:" > dbt_lakehouse_pharma/profiles.yml
-          echo "  target: dev" >> dbt_lakehouse_pharma/profiles.yml
-          echo "  outputs:" >> dbt_lakehouse_pharma/profiles.yml
-          echo "    dev:" >> dbt_lakehouse_pharma/profiles.yml
-          echo "      type: snowflake" >> dbt_lakehouse_pharma/profiles.yml
-          echo "      account: \"${SNOWFLAKE_ACCOUNT}\"" >> dbt_lakehouse_pharma/profiles.yml
-          echo "      user: \"${SNOWFLAKE_USER}\"" >> dbt_lakehouse_pharma/profiles.yml
-          echo "      password: \"${SNOWFLAKE_PASSWORD}\"" >> dbt_lakehouse_pharma/profiles.yml
-          echo "      role: ACCOUNTADMIN" >> dbt_lakehouse_pharma/profiles.yml
-          echo "      warehouse: COMPUTE_WH" >> dbt_lakehouse_pharma/profiles.yml
-          echo "      database: DEV_LAKEHOUSE" >> dbt_lakehouse_pharma/profiles.yml
-          echo "      schema: BRONZE" >> dbt_lakehouse_pharma/profiles.yml
-          echo "      threads: 8" >> dbt_lakehouse_pharma/profiles.yml
-
+          mkdir -p ~/.dbt
+          cat > ~/.dbt/profiles.yml <<EOF
+          dbt_dev_lakehouse_pharma:
+            target: dev
+            outputs:
+              dev:
+                type: snowflake
+                account: $SNOWFLAKE_ACCOUNT
+                user: $SNOWFLAKE_USER
+                password: $SNOWFLAKE_PASSWORD
+                role: ACCOUNTADMIN
+                warehouse: COMPUTE_WH
+                database: DEV_LAKEHOUSE
+                schema: BRONZE
+                threads: 8
+          EOF
         env:
-          SNOWFLAKE_ACCOUNT: MQ51575.eu-north-1
+          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
-
-      - name: Debug profiles.yml
-        run: cat dbt_lakehouse_pharma/profiles.yml
-
-      - name: dbt debug
-        working-directory: dbt_lakehouse_pharma
-        run: dbt debug --target dev --profiles-dir .
 
       - name: dbt deps
         working-directory: dbt_lakehouse_pharma
         run: dbt deps
 
-      - name: dbt build
+      - name: dbt build (DEV)
         working-directory: dbt_lakehouse_pharma
-        run: dbt build --target dev --profiles-dir .
+        run: dbt build --target dev
