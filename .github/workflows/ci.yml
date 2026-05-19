@@ -44,7 +44,7 @@ jobs:
           echo "      threads: 8" >> dbt_lakehouse_pharma/profiles.yml
 
         env:
-          SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+          SNOWFLAKE_ACCOUNT: MQ51575.eu-north-1
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
