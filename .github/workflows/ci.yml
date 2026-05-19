@@ -17,21 +17,23 @@ jobs:
         with:
           python-version: "3.9"
 
-      - name: Install dbt
-        run: pip install dbt-core dbt-snowflake
+      - name: Install dbt + Snowflake adapter
+        run: |
+          pip install --upgrade pip
+          pip install dbt-core dbt-snowflake snowflake-connector-python
 
-      - name: Setup profiles
+      - name: Setup dbt profiles
         run: |
           mkdir -p ~/.dbt
-          cat <<EOF > ~/.dbt/profiles.yml
+          cat > ~/.dbt/profiles.yml <<EOF
           dbt_dev_lakehouse_pharma:
             target: dev
             outputs:
               dev:
                 type: snowflake
-                account: RSHCLBR-JX48711
-                user: MARIUSZWASZKUC
-                password: "${SNOWFLAKE_PASSWORD}"
+                account: $SNOWFLAKE_ACCOUNT
+                user: $SNOWFLAKE_USER
+                password: $SNOWFLAKE_PASSWORD
                 role: ACCOUNTADMIN
                 warehouse: COMPUTE_WH
                 database: DEV_LAKEHOUSE
@@ -43,11 +45,10 @@ jobs:
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
-
       - name: dbt deps
-        run: dbt deps
         working-directory: dbt_lakehouse_pharma
+        run: dbt deps
 
       - name: dbt build (DEV)
-        run: dbt build --target dev
         working-directory: dbt_lakehouse_pharma
+        run: dbt build --target dev
