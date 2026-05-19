@@ -27,7 +27,7 @@ jobs:
           echo "${{ secrets.DBT_PROFILES }}" > ~/.dbt/profiles.yml
       
       - name: Setup profiles
-        run: cat~/.dbt/profiles.yml
+        run: cat ~/.dbt/profiles.yml
          
       - name: dbt deps
         run: dbt deps
