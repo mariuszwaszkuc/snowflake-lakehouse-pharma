@@ -46,10 +46,8 @@ S_DIM_CUSTOMERS as (
         c.update_date AS customer_update_date,
         co.update_date AS country_update_date,
 
-        -- wspólna data zmian
         GREATEST(c.update_date, co.update_date) as last_update,
 
-        -- audit
         current_timestamp() as update_ts,
         current_user() as updated_by,
 

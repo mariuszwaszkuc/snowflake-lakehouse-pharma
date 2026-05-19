@@ -7,4 +7,13 @@ sources:
     tables: 
     - name: CUSTOMERS
     - name: COUNTRIES
+    - name: PRODUCTS
+    - name: FORECAST_DETAILS
+    - name: INVENTORY_POS_HISTORY_DETAILS
+    - name: ORDERS
+    - name: ORDER_DETAILS
+    - name: INVENTORY_WHOLESALER_HISTORY_DETAILS
+    
+    
+    
 
