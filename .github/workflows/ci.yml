@@ -49,7 +49,14 @@ jobs:
         run: snow sql -x -q "SELECT CURRENT_ROLE();"
       - name: Debug current role 2
         working-directory: dbt_lakehouse_pharma
-        run: snow sql -x -q "SHOW GRANTS TO ROLE IDENTIFIER(CURRENT_ROLE());"
+        run: |
+          snow sql -x -q "SELECT 
+          CURRENT_USER(),
+          CURRENT_ROLE(),
+          CURRENT_SECONDARY_ROLES(),
+          CURRENT_DATABASE(),
+          CURRENT_SCHEMA(),
+          CURRENT_WAREHOUSE();"
       - name: Debug current role 3
         working-directory: dbt_lakehouse_pharma
         run: snow sql -x -q "SELECT CURRENT_USER();""
