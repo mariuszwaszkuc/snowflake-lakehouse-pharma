@@ -59,7 +59,7 @@ jobs:
           CURRENT_WAREHOUSE();"
       - name: Debug current role 3
         working-directory: dbt_lakehouse_pharma
-        run: snow sql -x -q "SELECT CURRENT_USER();""
+        run: snow sql -x -q "SELECT CURRENT_USER();"
         
       - name: Build and test dbt project in ${{ secrets.SNOWFLAKE_DATABASE }}.${{ secrets.SNOWFLAKE_SCHEMA }}
         working-directory: dbt_lakehouse_pharma
