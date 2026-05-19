@@ -28,6 +28,8 @@ jobs:
 
       - name: dbt deps
         run: dbt deps
+        working-directory: dbt_lakehouse_pharma
 
       - name: Deploy to PROD
         run: dbt build --target prod
+        working-directory: dbt_lakehouse_pharma
