@@ -1,7 +1,7 @@
 name: dbt_lakehouse_pharma
 version: 1.0.0
 config-version: 2
-profile: dbt_lakehouse_pharma
+profile: dbt_dev_lakehouse_pharma
 model-paths:
   - models
 analysis-paths:
