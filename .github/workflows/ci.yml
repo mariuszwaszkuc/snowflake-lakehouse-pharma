@@ -47,4 +47,5 @@ jobs:
         run: snow connection test -x
 
       - name: Build and test dbt project in ${{ vars.SNOWFLAKE_DATABASE }}.${{ vars.SNOWFLAKE_SCHEMA }}
-        run: snow dbt execute -x tester_tasty_bytes_dbt_project_object_gh_action build --target dev
+        working-directory: dbt_lakehouse_pharma
+        run: dbt build --target dev
