@@ -24,14 +24,15 @@ jobs:
           pip install --upgrade pip
           pip install dbt-core dbt-snowflake snowflake-connector-python
 
-      - name: Setup dbt profiles (SAFE - no EOF issues)
+      # 🔥 KLUCZOWA POPRAWKA: profiles MUSI być w katalogu dbt
+      - name: Create dbt profiles in project dir
         run: |
-          mkdir -p ~/.dbt
+          mkdir -p dbt_lakehouse_pharma
 
           printf "dbt_dev_lakehouse_pharma:\n  target: dev\n  outputs:\n    dev:\n      type: snowflake\n      account: %s\n      user: %s\n      password: %s\n      role: ACCOUNTADMIN\n      warehouse: COMPUTE_WH\n      database: DEV_LAKEHOUSE\n      schema: BRONZE\n      threads: 8\n" \
           "$SNOWFLAKE_ACCOUNT" \
           "$SNOWFLAKE_USER" \
-          "$SNOWFLAKE_PASSWORD" > ~/.dbt/profiles.yml
+          "$SNOWFLAKE_PASSWORD" > dbt_lakehouse_pharma/profiles.yml
 
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
@@ -39,11 +40,11 @@ jobs:
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
       - name: Debug profiles.yml
-        run: cat ~/.dbt/profiles.yml
+        run: cat dbt_lakehouse_pharma/profiles.yml
 
       - name: dbt debug
         working-directory: dbt_lakehouse_pharma
-        run: dbt debug --target dev
+        run: dbt debug --target dev --profiles-dir .
 
       - name: dbt deps
         working-directory: dbt_lakehouse_pharma
@@ -51,4 +52,4 @@ jobs:
 
       - name: dbt build (DEV)
         working-directory: dbt_lakehouse_pharma
-        run: dbt build --target dev
+        run: dbt build --target dev --profiles-dir .
