@@ -3,6 +3,8 @@ name: dbt CI
 on:
   pull_request:
     branches: [ main ]
+  push:
+    branches: [ main ]
 
 jobs:
   dbt-test:
@@ -22,25 +24,15 @@ jobs:
           pip install --upgrade pip
           pip install dbt-core dbt-snowflake snowflake-connector-python
 
-      - name: Setup dbt profiles
+      - name: Setup dbt profiles (SAFE - no EOF issues)
         run: |
           mkdir -p ~/.dbt
 
-          cat > ~/.dbt/profiles.yml <<EOF
-dbt_dev_lakehouse_pharma:
-  target: dev
-  outputs:
-    dev:
-      type: snowflake
-      account: $SNOWFLAKE_ACCOUNT
-      user: $SNOWFLAKE_USER
-      password: $SNOWFLAKE_PASSWORD
-      role: ACCOUNTADMIN
-      warehouse: COMPUTE_WH
-      database: DEV_LAKEHOUSE
-      schema: BRONZE
-      threads: 8
-EOF
+          printf "dbt_dev_lakehouse_pharma:\n  target: dev\n  outputs:\n    dev:\n      type: snowflake\n      account: %s\n      user: %s\n      password: %s\n      role: ACCOUNTADMIN\n      warehouse: COMPUTE_WH\n      database: DEV_LAKEHOUSE\n      schema: BRONZE\n      threads: 8\n" \
+          "$SNOWFLAKE_ACCOUNT" \
+          "$SNOWFLAKE_USER" \
+          "$SNOWFLAKE_PASSWORD" > ~/.dbt/profiles.yml
+
         env:
           SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
