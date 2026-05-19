@@ -14,18 +14,26 @@ jobs:
   run-snowflake-test-dbt-job:
     name: "Run on Incoming PR"
     runs-on: ubuntu-latest
-    environment: prod # Must match the OIDC subject's environment
+    environment: prod
 
     env:
       SNOWFLAKE_CLI_FEATURES_ENABLE_DBT: true
       SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
-      SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }} # if not using OIDC
+      SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
       SNOWFLAKE_DATABASE: ${{ secrets.DEV_SNOWFLAKE_DATABASE }}
       SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
 
     steps:
       - name: Check out repository code
         uses: actions/checkout@v4
+
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Install dbt
+        run: pip install dbt-core dbt-snowflake
 
       - name: Install Snowflake CLI
         uses: snowflakedb/snowflake-cli-action@v2.0
