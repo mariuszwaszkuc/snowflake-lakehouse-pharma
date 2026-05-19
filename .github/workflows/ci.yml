@@ -29,8 +29,8 @@ jobs:
             outputs:
               dev:
                 type: snowflake
-                account: "${SNOWFLAKE_ACCOUNT}"
-                user: "${SNOWFLAKE_USER}"
+                account: RSHCLBR-JX48711
+                user: MARIUSZWASZKUC
                 password: "${SNOWFLAKE_PASSWORD}"
                 role: ACCOUNTADMIN
                 warehouse: COMPUTE_WH
@@ -43,8 +43,6 @@ jobs:
           SNOWFLAKE_USER: ${{ secrets.SNOWFLAKE_USER }}
           SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
 
-      - name: DEBUG profiles.yml
-        run: cat ~/.dbt/profiles.yml
 
       - name: dbt deps
         run: dbt deps
