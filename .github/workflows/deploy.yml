@@ -35,7 +35,7 @@ jobs:
 
       - name: Test Snowflake connection
         run: snow connection test -x
-      - name: Create a new tester dbt project object in ${{ secrets.SNOWFLAKE_DATABASE }}.${{ secrets.SNOWFLAKE_SCHEMA  }}
+      - name: Create a new tester dbt project object in ${{ vars.PROD_SNOWFLAKE_DATABASE }}.${{ secrets.SNOWFLAKE_SCHEMA  }}
         working-directory: dbt_lakehouse_pharma
         run: snow dbt deploy dbt_lakehouse_pharma_action --dbt-version 1.10.15 --force -x
       - name: List all of the snowflake dbt project objects in your account
@@ -55,6 +55,6 @@ jobs:
           CURRENT_WAREHOUSE();"
 
         
-      - name: Build and test dbt project in ${{ secrets.SNOWFLAKE_DATABASE }}.${{ secrets.SNOWFLAKE_SCHEMA }}
+      - name: Build and test dbt project in ${{ vars.PROD_SNOWFLAKE_DATABASE }}.${{ secrets.SNOWFLAKE_SCHEMA }}
         working-directory: dbt_lakehouse_pharma
         run: snow dbt execute -x dbt_lakehouse_pharma_action build --target prod
