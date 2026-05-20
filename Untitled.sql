@@ -1,1 +1,1 @@
-select current_region();
+drop table S_F_WH_DATAPROD_LAKEHOUSE.BRONZE
