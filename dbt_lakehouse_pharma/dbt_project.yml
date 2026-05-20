@@ -31,11 +31,17 @@ models:
     bronze:
       +schema: BRONZE
       +materialized: table
+      +docs:
+        node_color: "bronze"
 
     silver:
       +schema: SILVER
       +materialized: view
+      +docs:
+        node_color: "silver"
 
     gold:
       +schema: GOLD
       +materialized: view
+      +docs:
+        node_color: "gold"
