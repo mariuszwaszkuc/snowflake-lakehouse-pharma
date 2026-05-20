@@ -4,32 +4,57 @@ on:
   push:
     branches: [ main ]
 
+permissions:
+  contents: read
+  id-token: write
+
 jobs:
-  deploy:
+  run-snowflake-test-dbt-job:
+    name: "Run on Incoming PR"
     runs-on: ubuntu-latest
+    environment: prod
+
+    env:
+      SNOWFLAKE_CLI_FEATURES_ENABLE_DBT: true
+      SNOWFLAKE_ACCOUNT: ${{ secrets.SNOWFLAKE_ACCOUNT }}
+      SNOWFLAKE_PASSWORD: ${{ secrets.SNOWFLAKE_PASSWORD }}
+      SNOWFLAKE_DATABASE: ${{ secrets.DEV_SNOWFLAKE_DATABASE }}
+      SNOWFLAKE_SCHEMA: ${{ secrets.SNOWFLAKE_SCHEMA }}
 
     steps:
-      - name: Checkout code
+      - name: Check out repository code
         uses: actions/checkout@v4
 
-      - name: Setup Python
-        uses: actions/setup-python@v4
+      - name: Install Snowflake CLI
+        uses: snowflakedb/snowflake-cli-action@v2.0
         with:
-          python-version: "3.9"
+          use-oidc: true
 
-      - name: Install dbt
-        run: |
-          pip install dbt-core dbt-snowflake
+      - name: Check Snowflake CLI Version
+        run: snow --version
 
-      - name: Setup profiles
-        run: |
-          mkdir -p ~/.dbt
-          echo "${{ secrets.DBT_PROFILES }}" > ~/.dbt/profiles.yml
-
-      - name: dbt deps
-        run: dbt deps
+      - name: Test Snowflake connection
+        run: snow connection test -x
+      - name: Create a new tester dbt project object in ${{ secrets.SNOWFLAKE_DATABASE }}.${{ secrets.SNOWFLAKE_SCHEMA  }}
         working-directory: dbt_lakehouse_pharma
-
-      - name: Deploy to PROD
-        run: dbt build --target prod
+        run: snow dbt deploy dbt_lakehouse_pharma_action --dbt-version 1.10.15 --force -x
+      - name: List all of the snowflake dbt project objects in your account
         working-directory: dbt_lakehouse_pharma
+        run: snow dbt list -x
+        # Builds all models and runs tests in DAG order, failing early if any upstream test breaks
+
+      - name: Debug current role 
+        working-directory: dbt_lakehouse_pharma
+        run: |
+          snow sql -x -q "SELECT 
+          CURRENT_USER(),
+          CURRENT_ROLE(),
+          CURRENT_SECONDARY_ROLES(),
+          CURRENT_DATABASE(),
+          CURRENT_SCHEMA(),
+          CURRENT_WAREHOUSE();"
+
+        
+      - name: Build and test dbt project in ${{ secrets.SNOWFLAKE_DATABASE }}.${{ secrets.SNOWFLAKE_SCHEMA }}
+        working-directory: dbt_lakehouse_pharma
+        run: snow dbt execute -x dbt_lakehouse_pharma_action build --target prod
