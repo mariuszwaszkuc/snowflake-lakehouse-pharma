@@ -1,5 +1,33 @@
 models:
   - name: G_DIM_DATES
-    description: Time dimensions table
+    description: |
+      Central time dimension table providing standardized calendar attributes used across all reporting and analytical models. 
+      Includes various date hierarchies (day, week, month, quarter, year) and enables consistent time-based aggregation, filtering, and trend analysis.
+      Acts as a reference for joining fact tables to ensure uniform reporting periods and time intelligence calculations.
+    docs:
+      node_color: '#000000'
+
+  - name: G_DIM_PRODUCTS
+    description: |
+      Product master dimension containing detailed attributes for all materials and finished goods used in planning and analysis.
+      Includes product hierarchy levels (e.g., XLVL2–XLVL7), material classifications, and business segmentation.
+      Serves as the single point of reference for product-related analytics, ensuring consistent product mapping across fact tables.
+    docs:
+      node_color: '#000000'
+
+  - name: G_DIM_REGION
+    description: |
+      Geographic dimension representing organizational and regional structure across markets, countries, and operational units.
+      Enables analysis by region, market, and business geography, supporting reporting on sales, inventory, and planning data across global structures.
+      Includes mappings such as country, region, operating group, and site-level classifications.
+    docs:
+      node_color: '#000000'
+
+  - name: G_F_PLANNING_BOOK
+    description: |
+      Core fact table containing planning and performance measures related to supply chain operations.
+      Includes key metrics such as ex-factory sales, sell-in, sell-out, and inventory levels, supporting demand and supply analysis.
+      Integrated with product, time, and regional dimensions to enable comprehensive monitoring of business performance and planning accuracy.
+      Serves as the primary data source for forecasting, planning processes, and inventory reserve calculations (e.g., MRB).
     docs:
       node_color: '#000000'
