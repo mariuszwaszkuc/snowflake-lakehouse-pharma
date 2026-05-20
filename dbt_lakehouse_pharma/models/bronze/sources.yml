@@ -4,16 +4,24 @@ sources:
     database: DEV_LAKEHOUSE
     description: "BROZNE LEAYER"
     schema: BRONZE
+    meta:
+      domain: "Commercial Planning"
+      system: "ERP, External Partners"
+      owner: "Commercial Team"
     tables: 
     - name: CUSTOMERS
+      description: "ERP Mysql Customers Master Data"
     - name: COUNTRIES
+      description: "ERP Mysql Countries Master Data"
     - name: PRODUCTS
+      description: "ERP Mysql Products Master Data"
     - name: FORECAST_DETAILS
+      description: "Local Planning Files"
     - name: INVENTORY_POS_HISTORY_DETAILS
+      description: "Market data IQVIA"
     - name: ORDERS
+      description: "ERP Mysql Order Headers"
     - name: ORDER_DETAILS
+      description: "ERP Mysql Order Lines"
     - name: INVENTORY_WHOLESALER_HISTORY_DETAILS
-    
-    
-    
-
+      description: "Data for Wholesalers"

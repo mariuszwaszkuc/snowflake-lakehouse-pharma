@@ -1,32 +1,47 @@
 name: dbt_lakehouse_pharma
 version: 1.0.0
 config-version: 2
+
 profile: dbt_dev_lakehouse_pharma
+
 model-paths:
   - models
+
 analysis-paths:
   - analyses
+
 test-paths:
   - tests
+
 seed-paths:
   - seeds
+
 macro-paths:
   - macros
+
 snapshot-paths:
   - snapshots
-  
+
 models:
   dbt_lakehouse_pharma:
-    +database: DEV_LAKEHOUSE 
+
+    # database wybierany z target (dev/prod z profiles.yml)
+    +database: "{{ target.database }}"
+
     bronze:
-    
       +schema: BRONZE
       +materialized: table
+      +docs:
+        node_color: "bronze"
 
     silver:
       +schema: SILVER
       +materialized: view
+      +docs:
+        node_color: "silver"
 
     gold:
       +schema: GOLD
-      +materialized: view    
+      +materialized: view
+      +docs:
+        node_color: "gold"

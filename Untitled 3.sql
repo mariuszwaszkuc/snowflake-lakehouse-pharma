@@ -1,0 +1,1 @@
+snow dbt deploy dbt_lakehouse_pharma

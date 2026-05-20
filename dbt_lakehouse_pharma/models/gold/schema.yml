@@ -1,0 +1,5 @@
+models:
+  - name: G_DIM_DATES
+    description: Time dimensions table
+    docs:
+      node_color: '#000000'
