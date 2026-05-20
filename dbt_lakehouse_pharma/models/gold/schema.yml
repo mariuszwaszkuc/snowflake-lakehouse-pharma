@@ -31,3 +31,44 @@ models:
       Serves as the primary data source for forecasting, planning processes, and inventory reserve calculations (e.g., MRB).
     docs:
       node_color: '#000000'
+    
+    columns:
+     - name: EX_FACTORY
+       description: |
+         Sales volume measured at ex-factory level, representing goods shipped directly from production or manufacturing sites.
+         Reflects supply-side output and is typically used as an indicator of production and supply availability.
+
+     - name: SALES_TO_PHARMACIES
+       description: |
+         Sell-in volume representing products delivered from distributors or central warehouses to pharmacies.
+         Indicates supply flow into the retail channel and availability of products at the point of sale.
+
+     - name: CONSUMER_OFF_TAKE
+       description: |
+         Sell-out volume representing products purchased by end consumers.
+         Serves as the primary demand indicator and reflects actual market consumption.
+
+     - name: EX_FACTORY
+       description: |
+         Sales volume measured at ex-factory level, representing goods shipped directly from production or manufacturing sites.
+         Used as a key metric for monitoring production output and supply chain inflow.
+
+     - name: CLOSE_STOCK
+       description: |
+         Closing inventory quantity at the end of the reporting period.
+         Represents available stock after accounting for all movements (sales, transfers, receipts) and is used for inventory and planning analysis.
+
+     - name: CLOSE_STOCK_PHARMACIES
+       description: |
+         Closing inventory quantity at pharmacy level at the end of the reporting period.
+         Reflects stock available in the retail channel and supports analysis of market availability and stock coverage.
+
+     - name: OPEN_STOCK
+       description: |
+         Opening inventory quantity at the beginning of the reporting period.
+         Acts as the starting point for stock reconciliation and inventory movement analysis.
+
+     - name: OPEN_STOCK_PHARMACIES
+       description: |
+         Opening inventory quantity at pharmacy level at the beginning of the reporting period.
+         Used to track stock evolution within the retail channel and support downstream demand and availability analysis.
