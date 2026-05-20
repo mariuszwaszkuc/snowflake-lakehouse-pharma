@@ -1,0 +1,30 @@
+version: 2
+
+models:
+  - name: s_dim_customers
+    description: "Customer dimension built from bronze customers and countries"
+
+    columns:
+      - name: customer_id
+        description: "Primary key"
+        tests:
+          - not_null
+          - unique
+
+      - name: country_id
+        description: "Foreign key to country"
+        tests:
+          - not_null
+
+      - name: company_name
+        tests:
+          - not_null
+
+      - name: last_update
+        description: "Latest update timestamp from customer or country"
+        tests:
+          - not_null
+
+      - name: update_ts
+        tests:
+          - not_null
